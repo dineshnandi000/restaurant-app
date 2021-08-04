@@ -1,6 +1,7 @@
 package com.resto.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.resto.exception.RestoException;
+import com.resto.model.Dishes;
 import com.resto.model.Restaurant;
 import com.resto.repo.RestoRepo;
 
@@ -22,6 +25,9 @@ public class RestoController {
 
 	@Autowired
 	private RestoRepo restoRepo;
+	
+    @Autowired
+    private RestTemplate restTemplate;
 	/*
 	 * @GetMapping("/greet") public String greetings() { return "Hello Springboot";
 	 * }
@@ -33,12 +39,15 @@ public class RestoController {
 	
 	@GetMapping("/getAllRestaurants")
 	public List<Restaurant> getAllRestaurantDetails(){
-		return restoRepo.findAll();
+		return (List<Restaurant>) restoRepo.findAll();
 	}
 	
 	@GetMapping("/getRestaurantById/{id}")
 	public Restaurant getRestaurantDetails(@PathVariable Long id) throws RestoException{
-		return restoRepo.findById(id).orElseThrow(() -> new RestoException(""));
+		Restaurant restaurant = restoRepo.findById(id).orElse(null);
+		List<Dishes> dishes = this.restTemplate.getForObject("http://localhost:9111/getdishesById/" + restaurant.getId(), List.class);
+	    restaurant.setDishes(dishes);
+		return restaurant;
 	}
 	
 	@DeleteMapping("/deleteRestaurant/{id}")
