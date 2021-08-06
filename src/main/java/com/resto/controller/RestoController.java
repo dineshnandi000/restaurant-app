@@ -41,7 +41,6 @@ public class RestoController {
 		List<Restaurant> restaurantList = restoRepo.findAll();
 		for(Restaurant restaurant : restaurantList) {
 		List<Dishes> dishes = this.restTemplate.getForObject("http://dishes-service/dish/getdishesById/" + restaurant.getId(), List.class);
-		System.out.println("*******"+restaurantList.get(0).getId()+"***********");
 		restaurant.setDishes(dishes);
 		}
 		return restaurantList;
