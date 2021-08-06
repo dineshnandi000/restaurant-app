@@ -3,12 +3,6 @@ node() {
         def err = null;
 
         try {
-            properties([
-                booleanParam(defaultValue: true, description: 'Deletes the contents of the workspace directory', name: 'CLEAN_WORKSPACE'),
-                booleanParam(defaultValue: true, description: 'Checks out the main project', name: 'SCM_CHECKOUT'),
-                booleanParam(defaultValue: true, description: 'Executes mvn clean verify', name: 'MAIN_BUILD'),
-            ])
-
             execStage('Clean Workspace', CLEAN_WORKSPACE,{
                 deleteDir()
             })
