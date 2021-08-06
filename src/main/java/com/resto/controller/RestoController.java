@@ -33,7 +33,7 @@ public class RestoController {
 
 	@PostMapping("/addRestaurant")
 	public Restaurant addRestaurantDetails(@RequestBody Restaurant restaurantDetails) {
-		return restoRepo.save(restaurantDetails)
+		return restoRepo.save(restaurantDetails);
 	}
 	
 	@GetMapping("/getAllRestaurants")
