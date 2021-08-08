@@ -6,12 +6,12 @@ import javax.persistence.Id;
 
 @Entity
 public class Dishes {
-	 @Id
-  	Long dishId;
-  	String dishname;
-  	int price;
-  	String desctiption;
-  	Long id;
+	@Id
+  	private Long dishId;
+  	private String dishname;
+  	private int price;
+  	private String desctiption;
+  	private Long id;
   	
   	public Long getDishId() {
   		return dishId;
